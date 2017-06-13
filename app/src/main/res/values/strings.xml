@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">RCC Contacts</string>
+
+    <string name="title_activity_contacts">ContactsActivity</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="username_error">Invalid Username!</string>
+    <string name="password_error">Invalid Password!</string>
+</resources>

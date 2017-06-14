@@ -19,6 +19,7 @@ public class ContactsPresenter implements ContactsContract.Presenter {
     private ContactsSource contactsSource;
     private BaseSchedulerProvider schedulerProvider;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
+    private boolean mFirstLoad = true;
 
     public ContactsPresenter(ContactsContract.View view, ContactsSource contactsSource, BaseSchedulerProvider schedulerProvider) {
         this.view = new WeakReference<>(view);
@@ -29,6 +30,18 @@ public class ContactsPresenter implements ContactsContract.Presenter {
 
     @Override
     public void subscribe() {
+        if(mFirstLoad) {
+            loadContacts();
+            mFirstLoad = false;
+        }
+    }
+
+    @Override
+    public void unsubscribe() {
+        compositeDisposable.clear();
+    }
+
+    private void loadContacts() {
         view.get().setLoadingBar(true);
         Disposable disposable = contactsSource
                 .getContacts()
@@ -47,10 +60,5 @@ public class ContactsPresenter implements ContactsContract.Presenter {
                     }
                 });
         compositeDisposable.add(disposable);
-    }
-
-    @Override
-    public void unsubscribe() {
-        compositeDisposable.clear();
     }
 }
